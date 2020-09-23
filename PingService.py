@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = 'secret key here'
 
 auth = HTTPDigestAuth()
 
-users={"vcu": "ram"}
+users={"vcu": "rams"}
 
 @auth.get_password
 def get_password(username):
@@ -35,6 +35,6 @@ def internal_server_error(e):
 @auth.login_required
 def ping():
     startTime = time.time()
-    pongRequest = requests.get("https://cmsc455-cordovaom-pong.herokuapp.com/pong")
-    return jsonify({'message': (time.time() - startTime)*1000}), 200
+    pongRequest = requests.get("https://cmsc455-cordovaom-pong.herokuapp.com/pong", params={"vcu": "rams"})
+    return jsonify((time.time() - startTime)*1000), 200
 
