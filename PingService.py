@@ -1,5 +1,6 @@
 import os
 import time
+import requests
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPDigestAuth
@@ -30,10 +31,11 @@ def page_not_found(e):
 def internal_server_error(e):
     return jsonify({'message': 'Servier Error'}), 500
 
-@app.route('/user', methods=['GET'])
+@app.route('/ping', methods=['GET'])
 @auth.login_required
 def ping():
     startTime = time.time()
-    http GET http://
-    return jsonify({'message': 'Server was pinged, ' + str((time.time() - startTime)*1000)}), 200
+    pongRequest = requests.get("https://cmsc455-cordovaom-pong.herokuapp.com/pong")
+    print(str(pongRequest))
+    return jsonify({'message': (time.time() - startTime)*1000}), 200
 
