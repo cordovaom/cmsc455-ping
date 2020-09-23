@@ -1,6 +1,7 @@
 import os
 import time
 import requests
+from requests.auth import HTTPDigestAuth as HTTPAuth
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPDigestAuth
@@ -11,7 +12,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] =\
     'sqlite:///' + os.path.join(basedir, 'data.sqlite')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'secret key here'
+app.config['SECRET_KEY'] = 'secret key'
 
 auth = HTTPDigestAuth()
 
@@ -35,6 +36,7 @@ def internal_server_error(e):
 @auth.login_required
 def ping():
     startTime = time.time()
-    pongRequest = requests.get("https://cmsc455-cordovaom-pong.herokuapp.com/pong", params={"vcu": "rams"})
+    url = 'https://cmsc455-cordovaom-pong.herokuapp.com/pong'
+    pongAuth = HTTPAuth('vcu', 'rams')
+    pongRequest = requests.get(url, auth= pongAuth)
     return jsonify((time.time() - startTime)*1000), 200
-
