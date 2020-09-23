@@ -36,6 +36,5 @@ def internal_server_error(e):
 def ping():
     startTime = time.time()
     pongRequest = requests.get("https://cmsc455-cordovaom-pong.herokuapp.com/pong")
-    print(str(pongRequest))
     return jsonify({'message': (time.time() - startTime)*1000}), 200
 
